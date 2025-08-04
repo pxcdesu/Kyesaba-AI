@@ -1,0 +1,9 @@
+discord.py
+langchain
+langchain-community
+langchain-chroma
+langchain-huggingface
+transformers
+chromadb
+lmstudio
+sentence_transformers
