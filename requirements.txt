@@ -1,9 +1,4 @@
-discord.py
-langchain
-langchain-community
-langchain-chroma
-langchain-huggingface
-transformers
-chromadb
-lmstudio
-sentence_transformers
+discord.py==2.3.2
+google-genai>=0.3.0
+python-dotenv>=1.0.0
+aiohttp>=3.9.0
