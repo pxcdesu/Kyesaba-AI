@@ -13,9 +13,9 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 
 if not GEMINI_API_KEY:
-    raise RuntimeError("❌ GEMINI_API_KEY が読み込めてません！.env を確認してね")
+    raise RuntimeError("GEMINI_API_KEY が読み込めてません！.env を確認してね")
 if not DISCORD_TOKEN:
-    raise RuntimeError("❌ DISCORD_TOKEN が読み込めてません！.env を確認してね")
+    raise RuntimeError("DISCORD_TOKEN が読み込めてません！.env を確認してね")
 
 # ======== Gemini クライアント初期化 ========
 genai_client = genai.Client(api_key=GEMINI_API_KEY)
@@ -98,7 +98,7 @@ async def call_gemini_image(prompt, model_id):
 # ======== Bot 起動イベント ========
 @bot.event
 async def on_ready():
-    print(f"✅ Bot「{bot.user}」が起動したンゴ！")
+    print(f"Bot「{bot.user}」が起動したンゴ！")
 
 # ======== メッセージ処理 ========
 @bot.event
@@ -118,14 +118,14 @@ async def on_message(message):
         mode_cmd = content[len("mode "):].strip().lower()
         if mode_cmd == "normal" or mode_cmd == "n":
             user_style[message.author.id] = "normal"
-            await message.reply("✅ 通常モードに切り替えたンゴ！")
+            await message.reply("通常モードに切り替えたンゴ！")
             return
         elif mode_cmd == "kyemode" or mode_cmd == "k":
             user_style[message.author.id] = "kyemode"
-            await message.reply("🔥 きぇさばモードに切り替えたンゴ！")
+            await message.reply("きぇさばモードに切り替えたンゴ！")
             return
         else:
-            await message.reply("⚠️ 無効なモードだンゴ！使えるモードは normal (n) と kyemode (k) だけだンゴ。")
+            await message.reply("⚠無効なモードだンゴ！使えるモードは normal (n) と kyemode (k) だけだンゴ。")
             return
 
     # === キャラ切り替えコマンド ===
@@ -133,10 +133,10 @@ async def on_message(message):
         chosen_char = content[len("ch "):].strip()
         if chosen_char in CHARACTERS:
             user_modes[message.author.id] = chosen_char
-            await message.reply(f"👑 キャラを **{chosen_char}** に切り替えたンゴ！")
+            await message.reply(f"キャラを **{chosen_char}** に切り替えたンゴ！")
         else:
             chars_list = ", ".join(CHARACTERS)
-            await message.reply(f"⚠️ キャラ **{chosen_char}** は存在しないンゴ！\n使えるキャラ一覧: {chars_list}")
+            await message.reply(f"キャラ **{chosen_char}** は存在しないンゴ！\n使えるキャラ一覧: {chars_list}")
         return
 
     # === 画像生成 ===
@@ -145,7 +145,7 @@ async def on_message(message):
         model = user_image_model.get(message.author.id, DEFAULT_IMAGE_MODEL)
         response = await call_gemini_image(prompt, model)
         if not response:
-            await message.reply("⚠️ 画像生成失敗。モデルが対応してないかも")
+            await message.reply("画像生成失敗。モデルが対応してないかも")
             return
 
         try:
@@ -153,10 +153,10 @@ async def on_message(message):
                 if part.inline_data and part.inline_data.data:
                     img_data = BytesIO(part.inline_data.data)
                     await message.channel.send(file=discord.File(img_data, filename=f"gen_image_{i}.png"))
-            await message.reply("✅ 画像生成完了")
+            await message.reply("画像生成完了")
         except Exception as e:
             print(f"画像送信エラー: {e}")
-            await message.reply("⚠️ 画像送信に失敗した")
+            await message.reply("画像送信に失敗した")
         return
 
     # === テキスト会話 ===
@@ -180,3 +180,4 @@ async def on_message(message):
 
 # ======== Bot 起動 ========
 bot.run(DISCORD_TOKEN)
+
